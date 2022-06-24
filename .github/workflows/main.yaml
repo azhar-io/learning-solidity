@@ -14,13 +14,11 @@ env:
   NODE_OPTIONS: --max_old_space_size=4096
 
 jobs:
-
   tests:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repo
-      uses: actions/checkout@master
+    - uses: actions/checkout@v2
 
     - name: Cache Compiler Installations
       uses: actions/cache@v2
@@ -30,11 +28,12 @@ jobs:
           ~/.vvm
         key: compiler-cache
 
+    - name: Setup nvm
+      run: nvm install 16.3.2
+
     - name: Setup Node.js
       uses: actions/setup-node@v2
 
-    - name: Setup nvm
-      run: nvm install 16.3.2
 
     - name: Install Ganache
       run: npm install -g ganache-cli@6.12.1
@@ -45,7 +44,7 @@ jobs:
         python-version: 3.8
 
     - name: Install Requirements
-      run: pip install -r requirements.txt
+      run: pip install -r requirements.txts
 
     - name: Run Tests
       run: brownie test
