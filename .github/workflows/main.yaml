@@ -9,6 +9,9 @@ name: main workflow
 
 env:
   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  # increasing available memory for node reduces issues with ganache crashing
+  # https://nodejs.org/api/cli.html#cli_max_old_space_size_size_in_megabytes
+  NODE_OPTIONS: --max_old_space_size=4096
 
 jobs:
 
@@ -16,22 +19,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
 
-    - name: Cache Solidity Installations
-      uses: actions/cache@v1
+    - name: Cache Compiler Installations
+      uses: actions/cache@v2
       with:
-        path: ~/.solcx
-        key: ${{ runner.os }}-solcx-cache
+        path: |
+          ~/.solcx
+          ~/.vvm
+        key: compiler-cache
 
     - name: Setup Node.js
-      uses: actions/setup-node@v3
+      uses: actions/setup-node@v1
 
     - name: Install Ganache
-      run: npm install -g ganache-cli@6.9.1
+      run: npm install -g ganache-cli@6.12.1
 
     - name: Setup Python 3.8
-      uses: actions/setup-python@v1
+      uses: actions/setup-python@v2
       with:
         python-version: 3.8
 
@@ -40,3 +45,4 @@ jobs:
 
     - name: Run Tests
       run: brownie test
+
