@@ -32,6 +32,9 @@ jobs:
     - name: Setup Node.js
       uses: actions/setup-node@v2
 
+    - name: Setup nvm
+      run: nvm install 16.3.2
+
     - name: Install Ganache
       run: npm install -g ganache-cli@6.12.1
 
