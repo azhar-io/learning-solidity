@@ -12,6 +12,7 @@ networks:
   default: development
   development:
     cmd_settings:
+      port: 8545
       mnemonic: brownie
       default_balance: 100000000000000000000
       unlock: <ACCOUNT ADDRESS HERE> # optionally add saved brownie account to Ganache
